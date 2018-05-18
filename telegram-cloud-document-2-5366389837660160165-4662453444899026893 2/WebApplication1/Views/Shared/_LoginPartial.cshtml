@@ -1,0 +1,13 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <span>Hello, @User.Identity.Name!</span>
+    using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <button class="btn btn-link">logout</button>
+    }
+}
+else
+{
+    <span>Hello, guest!</span>
+    @Html.ActionLink("login", "Login", "Account")
+}

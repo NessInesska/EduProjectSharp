@@ -1,0 +1,33 @@
+﻿@using WebApplication1.Models
+@model IEnumerable<WebApplication1.Models.Note>
+@{
+    ViewBag.Title = "Notes";
+}
+
+<h2>Notes</h2>
+
+@if (User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("Create", "Note"))
+    {
+        @Html.TextArea("Text")
+        <button>Add note</button>
+    }
+}
+
+<ul>
+    @foreach (var note in Model)
+    {
+        <li>
+            <span>@note.Id - @note.Text (@note.Author)</span>
+            @if (new[] { RoleNames.Admins, RoleNames.SuperAdmins }.Intersect(Roles.GetRolesForUser()).Any())
+            {
+                using (Html.BeginForm("Delete", "Note"))
+                {
+                    @Html.Hidden("Id", note.Id)
+                    <button><i class="glyphicon glyphicon-remove remove-icon"></i></button>
+                }
+            }
+        </li>
+    }
+</ul>
